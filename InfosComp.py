@@ -28,7 +28,7 @@ try:
 
     def creation_mail(nb_dim):
         msg = MIMEMultipart()
-        msg['Subject'] = f"{nb_dim} nouveaux DIM cette semaine !" if nb_dim > 1 else "Un nouveau DIM cette semaine !"
+        msg['Subject'] = f"{nb_dim} nouveaux DIM aujourd'hui !" if nb_dim > 1 else "Un nouveau DIM aujourd'hui !"
         msg['From'] = 'MAILEXPEMAILEXPE'
         msg['To'] = 'MAILDESTIMAILDESTI'
         return msg
