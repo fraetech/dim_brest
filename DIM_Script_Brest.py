@@ -60,6 +60,7 @@ try:
 
 	date_changed = False
 	taille_changed = False
+	nvelles_lignes = False
 
 	with open(file_path_date, "r") as file:
 		ancienne_date = file.read()
@@ -118,10 +119,13 @@ try:
 		df_added.to_csv(new_path, index=False)
 		nb_added = len(df_added)
 		print(f"Terminé, il y a {nb_added} nouvelles lignes cette semaine.")
+		if nb_added > 0:
+			nvelles_lignes == True
+	print(f"Nouvelles lignes ? {nvelles_lignes}")
 
 	if taille_changed == True and date_changed == False:
 		#Cas que je n'ai pour l'instant jamais vu, mais sait-on jamais..
-		subprocess.run(["python", script_sms, f"WARN - DIM_Script_Brest.py : Taille changée, date inchangée. Ancienne taille : {ancienne_taille}, nouvelle taille : {taille_fichier}."])
+		subprocess.run(["python", script_sms, f"WARN - DIM_Script_Brest.py : Taille changée, date inchangée, nouvelles lignes insérées. Ancienne taille : {ancienne_taille}, nouvelle taille : {taille_fichier}."])
 		row = 0
 		with open(row_path, "w") as file:
 			file.write(str(row))
@@ -139,26 +143,29 @@ try:
 		print("OK - Fichier inchangé mais à jour.")
 
 	elif taille_changed == True and date_changed == True:
-		#Un nouveau DIM a été publié.
-		save_path = os.path.join(data_path, 'dim.csv')
-		old_path = os.path.join(data_path, 'dim_old.csv')
-		last_path = os.path.join(data_path, 'dim.csv')
-		new_path = os.path.join(data_path, 'dim_added.csv')
+		if nvelles_lignes == True:
+			#Un ou plusieurs nouveau(x) DIM a/ont été publié(s).
+			save_path = os.path.join(data_path, 'dim.csv')
+			old_path = os.path.join(data_path, 'dim_old.csv')
+			last_path = os.path.join(data_path, 'dim.csv')
+			new_path = os.path.join(data_path, 'dim_added.csv')
 
-		rename_old_file(old_path, last_path)
-		download_data(url_csv, save_path)
-		load_and_process_csv(old_path, last_path, new_path)
+			rename_old_file(old_path, last_path)
+			download_data(url_csv, save_path)
+			load_and_process_csv(old_path, last_path, new_path)
 
-		subprocess.run(["python", script_sms, f"OK - DIM_Script_Brest.py : MAJ totale du {date_formatee}."])
-		subprocess.run(["python", script_infos])
-		row = 0
-		with open(row_path, "w") as file:
-			file.write(str(row))
-		with open(file_path_taille, "w") as file:
-			file.write(str(taille_fichier))
-		with open(file_path_date, "w") as file:
-			file.write(derniere_modif)
-		print("OK - MAJ totale.")
+			subprocess.run(["python", script_sms, f"OK - DIM_Script_Brest.py : MAJ totale du {date_formatee}."])
+			subprocess.run(["python", script_infos])
+			row = 0
+			with open(row_path, "w") as file:
+				file.write(str(row))
+			with open(file_path_taille, "w") as file:
+				file.write(str(taille_fichier))
+			with open(file_path_date, "w") as file:
+				file.write(derniere_modif)
+			print("OK - MAJ totale.")
+		else:
+			subprocess.run(["python", script_sms, f"INFO - DIM_Script_Brest.py : Date et taille changée. Mais pas de nouvelle ligne."])
 
 	elif taille_changed == False and date_changed == False:
 		#Action à réaliser lorsqu'il ne se passe rien (WE, jours fériés, ou à cause d'une erreur qui empêche d'atteindre data.gouv par ex).
