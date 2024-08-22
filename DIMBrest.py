@@ -132,7 +132,7 @@ def load_and_process_csv(old_path, last_path, new_path):
 def handle_error(exception):
     error_message = f"ERROR - DIM_Script_Brest.py : {str(exception)}"
     print(error_message)
-    subprocess.run(["python", os.path.join(os.path.dirname(os.path.abspath(__file__)), 'EnvoiSMS_V1.1.py'), error_message])
+    subprocess.run(["python", os.path.join(os.path.dirname(os.path.abspath(__file__)), 'EnvoiSMS.py'), error_message])
     
 def main():
     try:
@@ -145,7 +145,7 @@ def main():
         file_path_taille = os.path.join(data_path, 'taille.txt')
         file_path_date = os.path.join(data_path, 'date.txt')
         row_path = os.path.join(data_path, 'row.txt')
-        script_sms = os.path.join(path_app, 'EnvoiSMS_V1.1.py')
+        script_sms = os.path.join(path_app, 'EnvoiSMS.py')
         script_infos = os.path.join(path_app, 'InfosComp.py')
 
         # Téléchargement et analyse des données
