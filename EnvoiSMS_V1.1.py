@@ -13,13 +13,15 @@ Il n'est ainsi plus nécessaire de prédéfinir les messages dans ce script dire
 Version 1.0 : Version initiale
 '''
 import requests
-import sys
+import os
+from dotenv import load_dotenv
 
-user = 'USERUSERUSERUSER'
-key = 'KEYKEYKEYKEY'
+load_dotenv()
+
+user = os.getenv("USER")
+key = os.getenv("KEY")
 
 message = sys.argv[1]
-
 url = f'https://smsapi.free-mobile.fr/sendmsg?user={user}&pass={key}&msg={message}'
 
 reponse = requests.get(url)
@@ -27,4 +29,4 @@ reponse = requests.get(url)
 if reponse.status_code == 200:
 	print('SMS envoyé avec succès !')
 else:
-	print(f'Erreur lors de l\'envoi du SMS. Code d\'erreur : {reponse.status_code}.')
+	print(f"Erreur lors de l'envoi du SMS. Code d'erreur : {reponse.status_code}.")
