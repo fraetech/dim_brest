@@ -88,7 +88,7 @@ def envoi_sms(new_path):
             else:
                 nb_dim_autre += 1
 
-        content = f"Nb de DIM par opé :\n"
+        content = f"DIM_BREST: INFO - Nb de DIM par opé :\n"
         if nb_dim_ByTel: content += f"ByTel : {nb_dim_ByTel}\n"
         if nb_dim_Free: content += f"Free : {nb_dim_Free}\n"
         if nb_dim_ORF: content += f"Orange : {nb_dim_ORF}\n"
@@ -110,7 +110,7 @@ def main():
         envoi_mail(msg)
 
     except Exception as e:
-        subprocess.run(["python", script_sms, f"ERROR - InfoComp.py (DIM BREST) : Shit happened (py-error) : {str(e)}."])
+        subprocess.run(["python", script_sms, f"DIM_BREST: ERROR - InfoComp.py : Shit happened (py-error) : {str(e)}."])
         print(e)
 
 if __name__ == "__main__":

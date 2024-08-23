@@ -43,7 +43,7 @@ def read_file(file_path):
 
 def handle_changes(taille_changed, date_changed, nvelles_lignes, row, file_path_date, file_path_taille, row_path, taille_fichier, derniere_modif, script_sms, script_infos, date_formatee, data_path, url_csv, ancienne_taille):
     if taille_changed and not date_changed:
-        send_sms(script_sms, f"WARN - Taille changée, date inchangée, nouvelles lignes insérées. Ancienne taille : {ancienne_taille}, nouvelle taille : {taille_fichier}.")
+        send_sms(script_sms, f"DIM_BREST: WARN - Taille changée, date inchangée, nouvelles lignes insérées. Ancienne taille : {ancienne_taille}, nouvelle taille : {taille_fichier}.")
         reset_row(row_path)
         update_file(file_path_taille, taille_fichier)
         print("WARN - Taille changée, date inchangée.")
@@ -56,14 +56,14 @@ def handle_changes(taille_changed, date_changed, nvelles_lignes, row, file_path_
     elif taille_changed and date_changed:
         if nvelles_lignes:
             process_new_DIM(data_path, url_csv)
-            send_sms(script_sms, f"OK - MAJ totale du {date_formatee}.")
+            send_sms(script_sms, f"DIM_BREST: OK - MAJ totale du {date_formatee}.")
             subprocess.run(["python", script_infos])
             reset_row(row_path)
             update_file(file_path_taille, taille_fichier)
             update_file(file_path_date, derniere_modif)
             print("OK - MAJ totale.")
         else:
-            send_sms(script_sms, f"INFO - Date et taille changée. Mais pas de nouvelle ligne.")
+            send_sms(script_sms, f"DIM_BREST: INFO - Date et taille changée. Mais pas de nouvelle ligne.")
             print(taille_fichier)
             print(derniere_modif)
             update_file(file_path_taille, taille_fichier)
@@ -72,7 +72,7 @@ def handle_changes(taille_changed, date_changed, nvelles_lignes, row, file_path_
 def handle_no_change(row, row_path, script_sms):
     row += 1
     if row >= 9:
-        send_sms(script_sms, f"WARN - Rien n'a été modifié pour plus de {row} jours consécutifs.")
+        send_sms(script_sms, f"DIM_BREST: WARN - Rien n'a été modifié pour plus de {row} jours consécutifs.")
         row = 0
     update_file(row_path, row)
     print("WARN - Pas de changement.")
