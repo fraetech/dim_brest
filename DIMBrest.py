@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+import sys
 import requests
 import json
 from datetime import datetime, date
@@ -57,7 +57,7 @@ def handle_changes(taille_changed, date_changed, nvelles_lignes, row, file_path_
         if nvelles_lignes:
             process_new_DIM(data_path, url_csv)
             send_sms(script_sms, f"DIM_BREST: OK - MAJ totale du {date_formatee}.")
-            subprocess.run(["python", script_infos])
+            subprocess.run([sys.executable, script_infos])
             reset_row(row_path)
             update_file(file_path_taille, taille_fichier)
             update_file(file_path_date, derniere_modif)
@@ -88,7 +88,7 @@ def process_new_DIM(data_path, url_csv):
     load_and_process_csv(old_path, last_path, new_path)
 
 def send_sms(script_sms, message):
-    subprocess.run(["python", script_sms, message])
+    subprocess.run([sys.executable, script_sms, message])
 
 def update_file(file_path, content):
     with open(file_path, "w") as file:
@@ -132,7 +132,7 @@ def load_and_process_csv(old_path, last_path, new_path):
 def handle_error(exception):
     error_message = f"ERROR - DIM_Script_Brest.py : {str(exception)}"
     print(error_message)
-    subprocess.run(["python", os.path.join(os.path.dirname(os.path.abspath(__file__)), 'EnvoiSMS.py'), error_message])
+    subprocess.run([sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'EnvoiSMS.py'), error_message])
     
 def main():
     try:

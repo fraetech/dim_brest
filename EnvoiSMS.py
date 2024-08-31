@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 import requests
 import os
 from dotenv import load_dotenv

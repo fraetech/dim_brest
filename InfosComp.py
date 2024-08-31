@@ -1,17 +1,5 @@
 #!/usr/bin/env python
-
-'''
-Script Python DIM Brest
-Description : Le programme s'exécute automatiquement à 12h tous les jours ouvrés 
-
-Amélioration prévue :
-Version 2.2 : Nettoyage du code, implémentation de fonctions (optionnel : aller directement dans le CSV choper les infos du nouveau DIM)
-
--- (V. Actuelle) --
-Version 1.1 : Amélioration de la version initiale (ajout de fonctions)
-Version 1.0 : Version initiale
-'''
-
+import sys
 import csv
 import smtplib
 import os
@@ -96,7 +84,7 @@ def envoi_sms(new_path):
         if nb_dim_autre: content += f"Autre : {nb_dim_autre}\n"
 
         nb_total = nb_dim_ByTel + nb_dim_Free + nb_dim_ORF + nb_dim_SFR + nb_dim_autre
-        subprocess.run(["python", script_sms, content.rstrip()])
+        subprocess.run([sys.executable, script_sms, content.rstrip()])
         return nb_total
 
 def main():
@@ -110,7 +98,7 @@ def main():
         envoi_mail(msg)
 
     except Exception as e:
-        subprocess.run(["python", script_sms, f"DIM_BREST: ERROR - InfoComp.py : Shit happened (py-error) : {str(e)}."])
+        subprocess.run([sys.executable, script_sms, f"DIM_BREST: ERROR - InfoComp.py : Shit happened (py-error) : {str(e)}."])
         print(e)
 
 if __name__ == "__main__":
