@@ -21,7 +21,7 @@ def send_sms(user, key, message):
 def main():
     try:
         if len(sys.argv) != 2:
-            functions_dim.log_message("Usage: python EnvoiSMS.py 'Votre message ici'")
+            functions_dim.log_message("Usage: python sms.py 'Votre message ici'")
             sys.exit(1)
         
         user, key = load_environment_variables()

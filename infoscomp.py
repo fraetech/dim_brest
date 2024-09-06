@@ -23,7 +23,7 @@ MAIL_RECIPIENT = os.getenv("MAIL_RECIPIENT")
 path_app = os.path.dirname(os.path.abspath(__file__))
 data_path = os.path.join(path_app, 'files')
 new_path = os.path.join(data_path, 'dim_added.csv')
-script_sms = os.path.join(path_app, 'EnvoiSMSpy')
+script_sms = os.path.join(path_app, 'sms.py')
 
 def creation_mail(nb_dim):
     subject = f"{nb_dim} nouveaux DIM aujourd'hui !" if nb_dim > 1 else "Un nouveau DIM aujourd'hui !"
