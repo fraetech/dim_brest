@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import requests
+import functions_dim
 import os
 from dotenv import load_dotenv
 import sys
@@ -20,7 +21,7 @@ def send_sms(user, key, message):
 def main():
     try:
         if len(sys.argv) != 2:
-            print("Usage: python EnvoiSMS.py 'Votre message ici'")
+            functions_dim.log_message("Usage: python EnvoiSMS.py 'Votre message ici'")
             sys.exit(1)
         
         user, key = load_environment_variables()
@@ -28,12 +29,12 @@ def main():
         status_code = send_sms(user, key, message)
         
         if status_code == 200:
-            print('SMS envoyé avec succès !')
+            functions_dim.log_message('SMS envoyé avec succès !')
         else:
-            print(f"Erreur lors de l'envoi du SMS. Code d'erreur : {status_code}.")
+            functions_dim.log_message(f"Erreur lors de l'envoi du SMS. Code d'erreur : {status_code}.")
     
     except Exception as e:
-        print(f"Erreur : {str(e)}")
+        functions_dim.log_message(f"Erreur : {str(e)}")
         sys.exit(1)
 
 if __name__ == "__main__":

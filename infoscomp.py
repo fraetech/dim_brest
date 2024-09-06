@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import functions_dim
 import sys
 import csv
 import smtplib
@@ -20,7 +21,7 @@ MAIL_RECIPIENT = os.getenv("MAIL_RECIPIENT")
 
 # Paths globaux
 path_app = os.path.dirname(os.path.abspath(__file__))
-data_path = os.path.join(path_app, 'BR_DIMdata')
+data_path = os.path.join(path_app, 'files')
 new_path = os.path.join(data_path, 'dim_added.csv')
 script_sms = os.path.join(path_app, 'EnvoiSMSpy')
 
@@ -54,9 +55,9 @@ def envoi_mail(msg):
             smtp.ehlo()
             smtp.login(MAIL_SENDER, MAIL_PASSWORD)
             smtp.sendmail(MAIL_SENDER, MAIL_RECIPIENT, msg.as_string())
-        print('E-mail envoyé avec succès !')
+        functions_dim.log_message('E-mail envoyé avec succès !')
     except Exception as e:
-        print(f"Erreur lors de l'envoi de l'e-mail : {e}")
+        functions_dim.log_message(f"Erreur lors de l'envoi de l'e-mail : {e}")
 
 def envoi_sms(new_path):
     with open(new_path, newline='') as csvfile:
@@ -99,7 +100,7 @@ def main():
 
     except Exception as e:
         subprocess.run([sys.executable, script_sms, f"DIM_BREST: ERROR - InfoComp.py : Shit happened (py-error) : {str(e)}."])
-        print(e)
+        functions_dim.log_message(e)
 
 if __name__ == "__main__":
     main()
